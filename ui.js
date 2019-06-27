@@ -50,6 +50,19 @@ function displayRanking() {
 	
 	switch (xType) {
 		case "join":
+			xLabel = "Join Date";
+			xValue = function(d) { return new Date(+d.joinDate);}; // data -> value
+			xScale = d3.time.scale().range([width, 0]); // value -> display
+			xMap = function(d) { return xScale(xValue(d));}; // data -> display
+			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
+
+			// setup fill color
+			cValue = function(d) { return d.codingamer.level;};
+			color = d3.scale.linear().domain([10,55]).range(["yellow", "red"]);
+
+			xScale.domain([d3.min(data, xValue), d3.max(data, xValue)]);
+			break;
+
 		case "level":
 			xLabel = "XP Level";
 			xValue = function(d) { return d.codingamer.level;}; // data -> value
