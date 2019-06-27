@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+
+<!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
+<!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
+<!-- Coding style based on http://gist.github.com/mbostock/5977197 -->
+
+<style>
+#main {
+	text-align: center;
+}
+
+.svg-container {
+    width: 100%;
+	height: 100%;
+	margin: auto;
+}
+.svg-content {
+    display: inline-block;
+}
+
+fieldset {
+	display: inline-block;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 28px;
+  pointer-events: none;
+}
+</style>
+<body>
+<div id=main>
+	<div id="graph" class="svg-container"></div>
+
+	<fieldset id="x-choice">
+		<legend>X axis</legend>
+		<div>
+		<input type=radio onchange="xAxisChange(this)" id="rank" value="rank" name="x-value" checked> <label for="rank">Rank</label>
+		<input type=radio onchange="xAxisChange(this)" id="join" value="join" name="x-value"> <label for="join">Join date</label>
+		<input type=radio onchange="xAxisChange(this)" id="level" value="level" name="x-value"> <label for="level">XP Level</label>
+		</div>
+	</fieldset>
+
+	<script src="https://d3js.org/d3.v3.min.js"></script>
+
+	<script src="ui.js"></script>
+	<script src="cg.js"></script>
+
+</main>
+</body>
+</html>
