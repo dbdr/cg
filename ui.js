@@ -46,12 +46,13 @@ function displayRanking() {
 	 */ 
 
 	// setup x 
-	var xValue, xScale, xMap, xAxis, xLabel;
+	var xValue, xShowValue, xScale, xMap, xAxis, xLabel;
 	
 	switch (xType) {
 		case "join":
 			xLabel = "Join Date";
 			xValue = function(d) { return new Date(+d.joinDate);}; // data -> value
+			xShowValue = function(d) { return new Date(+d.joinDate).toISOString().split('T')[0];}; // data -> label
 			xScale = d3.time.scale().range([width, 0]); // value -> display
 			xMap = function(d) { return xScale(xValue(d));}; // data -> display
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
@@ -66,6 +67,7 @@ function displayRanking() {
 		case "level":
 			xLabel = "XP Level";
 			xValue = function(d) { return d.codingamer.level;}; // data -> value
+			xShowValue = function(d) { return "lvl " + d.codingamer.level;}; // data -> label
 			xScale = d3.scale.linear().range([0, width]); // value -> display
 			xMap = function(d) { return xScale(xValue(d));}; // data -> display
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
@@ -81,6 +83,7 @@ function displayRanking() {
 		case "rank":
 			xLabel = "Rank";
 			xValue = function(d) { return d.rank;}; // data -> value
+			xShowValue = function(d) { return "#" + d.rank;}; // data -> label
 			xScale = d3.scale.linear().range([width, 0]); // value -> display
 			xMap = function(d) { return xScale(xValue(d));}; // data -> display
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
@@ -142,7 +145,7 @@ function displayRanking() {
 			tooltip.transition()
 				.duration(200)
 				.style("opacity", .9);
-			tooltip.html(d["pseudo"] + "<br/> (#" + xValue(d) 
+			tooltip.html(d["pseudo"] + "<br/> (" + xShowValue(d) 
 				+ ", " + yValue(d) + ")")
 				.style("left", (d3.event.pageX + 5) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
