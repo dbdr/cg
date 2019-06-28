@@ -49,6 +49,8 @@ function xAxisChange(radio) {
 	displayRanking();
 }
 
+xAxisChange(document.querySelector('input[name = "x-value"]:checked'));
+
 function updateRanking(ranking) {
 	savedRanking = ranking;
 	spinner.stop();
