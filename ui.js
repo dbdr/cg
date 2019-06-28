@@ -93,7 +93,7 @@ function displayRanking() {
 			xLabel = "Join Date";
 			xValue = function(d) { return new Date(+d.joinDate);}; // data -> value
 			xShowValue = function(d) { return new Date(+d.joinDate).toISOString().split('T')[0];}; // data -> label
-			xScale = d3.time.scale().range([width, 0]); // value -> display
+			xScale = d3.time.scale().range([0, width]); // value -> display
 			xMap = function(d) { return xScale(xValue(d));}; // data -> display
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
