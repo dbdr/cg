@@ -39,7 +39,11 @@ const opts = {
   shadow: '0 0 1px transparent', // Box-shadow for the lines
   position: 'absolute' // Element positioning
 };
-const spinner = new Spinner(opts).spin(d3.select("#graph")[0][0]);
+const spinner = new Spinner(opts);
+
+function startSpin() {
+	spinner.spin(d3.select("#graph")[0][0]);
+}
 
 let savedRanking = null;
 let xType = "rank";
@@ -50,6 +54,15 @@ function xAxisChange(radio) {
 }
 
 xAxisChange(document.querySelector('input[name = "x-value"]:checked'));
+
+let rankingPageElement = document.querySelector('select#rankingPage');
+let rankingPage = rankingPageElement.selectedOptions[0].value;
+console.log('rankingPage', rankingPage);
+
+rankingPageElement.addEventListener('change', (event) => {
+	rankingPage = event.target.value;
+	fetchRankings();
+});
 
 function updateRanking(ranking) {
 	savedRanking = ranking;
