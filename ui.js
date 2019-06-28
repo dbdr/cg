@@ -1,6 +1,8 @@
 const W = 2000;
 const H =  800;
 
+const IMG_SIZE = 30;
+
 const zone = d3.select("#graph")[0][0];
 const margin = {top: 40, right: 100, bottom: 40, left: 100},
     width = W - margin.left - margin.right,
@@ -162,10 +164,10 @@ function displayRanking() {
 	svg.selectAll(".dot")
 		.data(data)
 		.enter().append("svg:image")
-		.attr("x", xMap)
-		.attr("y", yMap)
-		.attr('width', 30)
-		.attr('height', 30)
+		.attr("x", x => xMap(x) - IMG_SIZE / 2)
+		.attr("y", y => yMap(y) - IMG_SIZE / 2)
+		.attr('width', IMG_SIZE)
+		.attr('height', IMG_SIZE)
 		.attr("xlink:href", d => "https://static.codingame.com/servlet/fileservlet?id=" + d.codingamer.avatar + "&format=ide_minileaderboard_avatar")
 		.on("mouseover", function(d) {
 			tooltip.transition()
