@@ -95,10 +95,6 @@ function displayRanking() {
 			xMap = function(d) { return xScale(xValue(d));}; // data -> display
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
 
-			// setup fill color
-			cValue = function(d) { return d.codingamer.level;};
-			color = d3.scale.linear().domain([10,55]).range(["yellow", "red"]);
-
 			xScale.domain([d3.min(data, xValue), d3.max(data, xValue)]);
 			break;
 
@@ -109,10 +105,6 @@ function displayRanking() {
 			xScale = d3.scale.linear().range([0, width]); // value -> display
 			xMap = function(d) { return xScale(xValue(d));}; // data -> display
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
-
-			// setup fill color
-			cValue = function(d) { return d.codingamer.level;};
-			color = d3.scale.linear().domain([10,55]).range(["yellow", "red"]);
 
 			// don't want dots overlapping axis, so add in buffer to data domain
 			xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
@@ -125,10 +117,6 @@ function displayRanking() {
 			xScale = d3.scale.linear().range([width, 0]); // value -> display
 			xMap = function(d) { return xScale(xValue(d));}; // data -> display
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
-
-			// setup fill color
-			cValue = function(d) { return d.codingamer.level;};
-			color = d3.scale.linear().domain([10,55]).range(["yellow", "red"]);
 
 			// don't want dots overlapping axis, so add in buffer to data domain
 			xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
@@ -173,12 +161,12 @@ function displayRanking() {
 	// draw dots
 	svg.selectAll(".dot")
 		.data(data)
-		.enter().append("circle")
-		.attr("class", "dot")
-		.attr("r", 3.5)
-		.attr("cx", xMap)
-		.attr("cy", yMap)
-		.style("fill", function(d) { return color(cValue(d));}) 
+		.enter().append("svg:image")
+		.attr("x", xMap)
+		.attr("y", yMap)
+		.attr('width', 30)
+		.attr('height', 30)
+		.attr("xlink:href", d => "https://static.codingame.com/servlet/fileservlet?id=" + d.codingamer.avatar + "&format=ide_minileaderboard_avatar")
 		.on("mouseover", function(d) {
 			tooltip.transition()
 				.duration(200)
