@@ -50,12 +50,13 @@ fieldset {
 	<fieldset id="y-choice">
 		<legend>Y axis</legend>
 		<div>
-		<input type=radio onchange="yAxisChange(this)" name="y-value" id="all" value="all" checked> <label for="all">All</label>
-		<input type=radio onchange="yAxisChange(this)" name="y-value" id="contest" value="contest"> <label for="contest">Contest</label>
-		<input type=radio onchange="yAxisChange(this)" name="y-value" id="multi" value="multi"> <label for="multi">Multi</label>
-		<input type=radio onchange="yAxisChange(this)" name="y-value" id="golf" value="golf"> <label for="golf">Golf</label>
-		<input type=radio onchange="yAxisChange(this)" name="y-value" id="optim" value="optim"> <label for="golf">Optim</label>
-		<input type=radio onchange="yAxisChange(this)" name="y-value" id="clash" value="clash"> <label for="clash">Clash</label>
+		<input type=radio onchange="settingsChanged()" name="y-value" id="all" value="all" checked> <label for="all">All</label>
+		<input type=radio onchange="settingsChanged()" name="y-value" id="contest" value="contest"> <label for="contest">Contest</label>
+		<input type=radio onchange="settingsChanged()" name="y-value" id="multi" value="multi"> <label for="multi">Multi</label>
+		<input type=radio onchange="settingsChanged()" name="y-value" id="golf" value="golf"> <label for="golf">Golf</label>
+		<input type=radio onchange="settingsChanged()" name="y-value" id="optim" value="optim"> <label for="golf">Optim</label>
+		<input type=radio onchange="settingsChanged()" name="y-value" id="clash" value="clash"> <label for="clash">Clash</label>
+		<span id='specialized-section'><input onchange="settingsChanged()" type=checkbox id="specialized"> <label for="specialized">Specialized</input></span>
 		</div>
 	</fieldset>
 
@@ -77,6 +78,7 @@ fieldset {
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.js"></script>
 
 	<script src="ui.js"></script>
+	<script src="joinDates.js"></script>
 	<script src="cg.js"></script>
 
 </div>

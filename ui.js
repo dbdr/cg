@@ -58,11 +58,13 @@ function xAxisChange(radio) {
 xAxisChange(document.querySelector('input[name = "x-value"]:checked'));
 
 let yType;
-function yAxisChange(radio) {
-	yType = radio.value;
-	displayRanking();
+let specializedRanking = false;
+function settingsChanged() {
+	yType = document.querySelector('input[name = "y-value"]:checked').value;
+	specializedRanking = document.querySelector('#specialized').checked;
+	document.querySelector('#specialized-section').style.visibility = yType === 'all' ? 'hidden' : 'visible';
+	fetchRankings();
 }
-yAxisChange(document.querySelector('input[name = "y-value"]:checked'));
 
 let rankingPageElement = document.querySelector('select#rankingPage');
 let rankingPage = rankingPageElement.selectedOptions[0].value;
@@ -98,8 +100,8 @@ function displayRanking() {
 	switch (xType) {
 		case "join":
 			xLabel = "Join Date";
-			xValue = function(d) { return new Date(+d.joinDate);}; // data -> value
-			xShowValue = function(d) { return new Date(+d.joinDate).toISOString().split('T')[0];}; // data -> label
+			xValue = d => new Date(+d.codingamer.joinDate); // data -> value
+			xShowValue = d => xValue(d).toISOString().split('T')[0]; // data -> label
 			xScale = d3.time.scale().range([0, width]); // value -> display
 			xMap = function(d) { return xScale(xValue(d));}; // data -> display
 			xAxis = d3.svg.axis().scale(xScale).orient("bottom");
