@@ -206,7 +206,7 @@ function displayRanking() {
 		.attr("y", y => yMap(y) - IMG_SIZE / 2)
 		.attr('width', IMG_SIZE)
 		.attr('height', IMG_SIZE)
-		.attr("xlink:href", d => "https://static.codingame.com/servlet/fileservlet?id=" + d.codingamer.avatar + "&format=ide_minileaderboard_avatar")
+		.attr("xlink:href", d => "https://static.codingame.com/servlet/fileservlet?id=" + d.codingamer.avatar + "&format=navigation_avatar")
 		.on("mouseover", function(d) {
 			tooltip.transition()
 				.duration(200)
