@@ -1,3 +1,5 @@
+const cachedRankings = new Map();
+
 function fetchRankings() {
 	const active = specializedRanking && yType !== 'all';
 	let column = '', filter = '';
@@ -24,6 +26,12 @@ function fetchRankings() {
 	const options = `[${rankingPage},{'keyword':'','active':${active},'column':'${column}','filter':'${filter}'},null,true,'global']`;
 	console.log(options);
 
+	const leaderboard = cachedRankings.get(options);
+	if (leaderboard) {
+		addJoinDates(0, leaderboard);
+		return;
+	}
+
 	startSpin();
 	const xhr = new XMLHttpRequest();
 	const reqURL = 'https://cors-anywhere.herokuapp.com/https://www.codingame.com/services/Leaderboards/getGlobalLeaderboard';
@@ -33,6 +41,7 @@ function fetchRankings() {
 		if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
 			const res = xhr.response;
 			console.log(res);
+			cachedRankings.set(options, res);
 			addJoinDates(0, res);
 		}
 	}
