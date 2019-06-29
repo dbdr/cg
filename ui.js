@@ -164,7 +164,9 @@ function displayRanking() {
 	let yScale = d3.scale.linear().range([height, 0]), // value -> display
 		yMap = d => yScale(yValue(d)), // data -> display
 		yAxis = d3.svg.axis().scale(yScale).orient("left");
-	yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
+	const min = d3.min(data, yValue);
+	const max = d3.max(data, yValue);
+	yScale.domain([min - (max - min) * 0.025, max + (max - min) * 0.025]);
 
 	while (svg[0][0].children.length > 0) {
 		svg[0][0].removeChild(svg[0][0].children[0]);
