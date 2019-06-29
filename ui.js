@@ -57,6 +57,13 @@ function xAxisChange(radio) {
 
 xAxisChange(document.querySelector('input[name = "x-value"]:checked'));
 
+let yType;
+function yAxisChange(radio) {
+	yType = radio.value;
+	displayRanking();
+}
+yAxisChange(document.querySelector('input[name = "y-value"]:checked'));
+
 let rankingPageElement = document.querySelector('select#rankingPage');
 let rankingPage = rankingPageElement.selectedOptions[0].value;
 console.log('rankingPage', rankingPage);
@@ -126,9 +133,34 @@ function displayRanking() {
 	}
 
 	// setup y
-	let yValue = function(d) { return d.score;}, // data -> value
-		yScale = d3.scale.linear().range([height, 0]), // value -> display
-		yMap = function(d) { return yScale(yValue(d));}, // data -> display
+	let yValue;
+	switch (yType) {
+		case "all":
+			yValue = d => d.score;
+			break;
+
+		case "contest":
+			yValue = d => d.contests;
+			break;
+
+		case "multi":
+			yValue = d => d.multiTraining;
+			break;
+
+		case "golf":
+			yValue = d => d.codegolf;
+			break;
+
+		case "optim":
+			yValue = d => d.optim;
+			break;
+
+		case "clash":
+			yValue = d => d.clash;
+			break;
+	}
+	let yScale = d3.scale.linear().range([height, 0]), // value -> display
+		yMap = d => yScale(yValue(d)), // data -> display
 		yAxis = d3.svg.axis().scale(yScale).orient("left");
 	yScale.domain([d3.min(data, yValue)-1, d3.max(data, yValue)+1]);
 

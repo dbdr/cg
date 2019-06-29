@@ -47,6 +47,18 @@ fieldset {
 <div id=main>
 	<div id="graph" class="svg-container"></div>
 
+	<fieldset id="y-choice">
+		<legend>Y axis</legend>
+		<div>
+		<input type=radio onchange="yAxisChange(this)" name="y-value" id="all" value="all" checked> <label for="all">All</label>
+		<input type=radio onchange="yAxisChange(this)" name="y-value" id="contest" value="contest"> <label for="contest">Contest</label>
+		<input type=radio onchange="yAxisChange(this)" name="y-value" id="multi" value="multi"> <label for="multi">Multi</label>
+		<input type=radio onchange="yAxisChange(this)" name="y-value" id="golf" value="golf"> <label for="golf">Golf</label>
+		<input type=radio onchange="yAxisChange(this)" name="y-value" id="optim" value="optim"> <label for="golf">Optim</label>
+		<input type=radio onchange="yAxisChange(this)" name="y-value" id="clash" value="clash"> <label for="clash">Clash</label>
+		</div>
+	</fieldset>
+
 	<fieldset id="x-choice">
 		<legend>X axis</legend>
 		<div>
