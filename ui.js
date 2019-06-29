@@ -199,7 +199,9 @@ function displayRanking() {
 	// draw dots
 	svg.selectAll(".dot")
 		.data(data)
-		.enter().append("svg:image")
+		.enter()
+		.append("svg:a").attr("xlink:href", d => "https://www.codingame.com/profile/" + d.codingamer.publicHandle).attr("target", "_blank")
+		.append("svg:image")
 		.attr("x", x => xMap(x) - IMG_SIZE / 2)
 		.attr("y", y => yMap(y) - IMG_SIZE / 2)
 		.attr('width', IMG_SIZE)
