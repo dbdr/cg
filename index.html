@@ -2,11 +2,32 @@
 <html>
 <meta charset="utf-8">
 
-<!-- Example based on http://bl.ocks.org/mbostock/3887118 -->
-<!-- Tooltip example from http://www.d3noob.org/2013/01/adding-tooltips-to-d3js-graph.html -->
-<!-- Coding style based on http://gist.github.com/mbostock/5977197 -->
-
 <style>
+html, body {
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+.jumbotron {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	padding: 10px 50px;
+	background-color: #eee;
+}
+a {
+    color: #337ab7;
+    text-decoration: none;
+    background-color: transparent;
+}
+h1 {
+	margin: 0.1em;
+}
+nav {
+	margin-right: 100px;
+}
+
 #main {
 	text-align: center;
 }
@@ -43,8 +64,22 @@ fieldset {
   background: grey;
 }
 </style>
+
 <body>
-<div id=main>
+	<div class="jumbotron">
+		<h1>CG Ranking</h1>
+		<nav>
+			<a target="_blank" href="http://cgstats.magusgeek.com/" title="Magus">CG stats</a> -
+			<a target="_blank" href="http://apps.rezonux.com/codingame/" title="Royale">CP Details</a> -
+			<a target="_blank" href="https://cgmulti.azke.fr/players" title="Azkellas">CG Multi</a> -
+			<a target="_blank" href="https://chadok.info/codingame/leaderboard_xp.php" title="Stilgart">XP Leaderboard</a> -
+			<a target="_blank" href="https://chadok.info/codingame/puzzles_list.php" title="Stilgart">Puzzle List</a>
+		</nav>
+	</div>
+
+	<a href="https://github.com/dbdr/cg" target="_blank"><img width="100px" style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+
+	<div id=main>
 	<div id="graph" class="svg-container"></div>
 
 	<fieldset id="y-choice">
@@ -81,6 +116,6 @@ fieldset {
 	<script src="joinDates.js"></script>
 	<script src="cg.js"></script>
 
-</div>
+	</div>
 </body>
 </html>
