@@ -42,7 +42,10 @@ var CGLadder = new function() {
 	*/
 	this.restoreRankings = function() {
 		let cache = this.getStoredRankings()
-		if( !cache ) console.error( "Nothing to restore" )
+		if( !cache ) {
+			console.warn( "Nothing to restore" );
+			return;
+		}
 		if( ( Date.now() - cache.timestamp ) < 1000 * 60 * 60 ) { // 1 hour
 			cachedRankings = cache.map
 		}
