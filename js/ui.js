@@ -63,7 +63,7 @@ function settingsChanged() {
 	yType = document.querySelector('input[name = "y-value"]:checked').value;
 	specializedRanking = document.querySelector('#specialized').checked;
 	document.querySelector('#specialized-section').style.visibility = yType === 'all' ? 'hidden' : 'visible';
-	fetchRankings();
+	CGLadder.fetchRankings();
 }
 
 let rankingPageElement = document.querySelector('select#rankingPage');
@@ -72,7 +72,7 @@ console.log('rankingPage', rankingPage);
 
 rankingPageElement.addEventListener('change', (event) => {
 	rankingPage = event.target.value;
-	fetchRankings();
+	CGLadder.fetchRankings();
 });
 
 function updateRanking(ranking) {
@@ -87,16 +87,16 @@ function displayRanking() {
 
 	const data = savedRanking.users;
 
-	/* 
+	/*
 	 * value accessor - returns the value to encode for a given data object.
 	 * scale - maps value to a visual display encoding, such as a pixel position.
 	 * map function - maps from data value to display value
 	 * axis - sets up axis
-	 */ 
+	 */
 
-	// setup x 
+	// setup x
 	var xValue, xShowValue, xScale, xMap, xAxis, xLabel;
-	
+
 	switch (xType) {
 		case "join":
 			xLabel = "Join Date";
@@ -120,7 +120,7 @@ function displayRanking() {
 			// don't want dots overlapping axis, so add in buffer to data domain
 			xScale.domain([d3.min(data, xValue)-1, d3.max(data, xValue)+1]);
 			break;
-		
+
 		case "rank":
 			xLabel = "Rank";
 			xValue = function(d) { return d.rank;}; // data -> value
@@ -211,7 +211,7 @@ function displayRanking() {
 			tooltip.transition()
 				.duration(200)
 				.style("opacity", .9);
-			tooltip.html(d["pseudo"] + "<br/> (" + xShowValue(d) 
+			tooltip.html(d["pseudo"] + "<br/> (" + xShowValue(d)
 				+ ", " + yValue(d) + ")")
 				.style("left", (d3.event.pageX + 5) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
