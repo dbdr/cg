@@ -25,7 +25,7 @@ let Http = new function() {
     }
     
     if( params ) {
-      url += (params[0] == "?" ? "" : "?) + params
+      url += (params[0] == "?" ? "" : "?") + params
     }
 
     let xhr = new XMLHttpRequest()
