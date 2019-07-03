@@ -4,7 +4,7 @@ const H =  800;
 const IMG_SIZE = 30;
 
 const zone = d3.select("#graph")[0][0];
-const margin = {top: 40, right: 100, bottom: 40, left: 100},
+const margin = {top: 40, right: 200, bottom: 40, left: 100},
     width = W - margin.left - margin.right,
     height = H - margin.top - margin.bottom;
 
@@ -208,6 +208,8 @@ function displayRanking() {
 		.attr('height', IMG_SIZE)
 		.attr("xlink:href", d => "https://static.codingame.com/servlet/fileservlet?id=" + d.codingamer.avatar + "&format=navigation_avatar")
 		.on("mouseover", function(d) {
+			const tooltipElt = tooltip[0][0];
+			tooltipElt.pseudo = d["pseudo"];
 			tooltip.transition()
 				.duration(200)
 				.style("opacity", .9);
@@ -215,6 +217,17 @@ function displayRanking() {
 				+ ", " + yValue(d) + ")")
 				.style("left", (d3.event.pageX + 5) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
+			if (yType == "golf") {
+				for (let game of GOLF_GAMES) {
+					Http.get('http://cgstats.proxy.magusgeek.com/search', `game=${game.id}&player=${d["pseudo"]}`).subscribe(res => {
+						console.log(res);
+						if (tooltipElt.pseudo === d["pseudo"]) {
+							const score = res.stats.slice(0, 5).map(s=>s.points).reduce((a,b)=>a+b, 0);
+							tooltipElt.innerHTML += '<br>' + game.name + ': ' + score;
+						}
+					}, (error) => console.log(error));
+				}
+			}
 		})
 		.on("mouseout", function(d) {
 			tooltip.transition()
