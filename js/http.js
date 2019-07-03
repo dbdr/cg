@@ -23,6 +23,10 @@ let Http = new function() {
       url = CORS_INDIRECTION + url
 
     }
+    
+    if( params ) {
+      url += (params[0] == "?" ? "" : "?") + params
+    }
 
     let xhr = new XMLHttpRequest()
 
@@ -57,8 +61,8 @@ let Http = new function() {
   /**
   * Create a GET request
   */
-  this.get = function( url, options ) {
-    return new httpRequest( "GET", url, options )
+  this.get = function( url, params, options ) {
+    return new httpRequest( "GET", url, params, options )
   }
 
   /**
