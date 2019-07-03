@@ -37,7 +37,7 @@ let Http = new function() {
         const res = xhr.response;
         if( this.onSuccess ) this.onSuccess( res )
       } else {
-        if( this.onError ) this.onError( res )
+        if( this.onError ) this.onError( xhr )
       }
 
     }
