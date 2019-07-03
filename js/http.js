@@ -52,7 +52,7 @@ let Http = new function() {
       if( onError ) this.onError = onError || (res => console.error)
 
       xhr.open( type, url )
-      xhr.responseType = options.responseType || this.defaultOptions.responseType
+      xhr.responseType = options.responseType || DEFAULT_OPTIONS.responseType
       xhr.onreadystatechange = onreadystatechange
       xhr.send( params )
     }
