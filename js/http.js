@@ -24,7 +24,7 @@ let Http = new function() {
 
     }
     
-    if( params ) {
+    if( params && type === "GET" ) {
       url += (params[0] == "?" ? "" : "?") + params
     }
 
