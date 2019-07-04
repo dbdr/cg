@@ -133,6 +133,11 @@ var CGLadder = new function() {
 			).subscribe(
 				( res ) => {
 					const joinDate = res.codingamePointsRankingDto.rankHistorics.dates[0];
+					console.log("New user: ", user.pseudo, res);
+					db.collection('join-dates').doc(user.userId.toString()).set({
+						pseudo: user.pseudo,
+						"join-date": joinDate,
+					});
 					joinDates[user.userId] = joinDate;
 					user.joinDate = joinDate;
 					this.addJoinDates(player + 1, leaderboard);
@@ -144,4 +149,12 @@ var CGLadder = new function() {
 
 };
 
-settingsChanged();
+let joinDates = {};
+
+db.collection('join-dates').get().then(res => {
+	res.forEach(doc => {
+		const date = doc.data()["join-date"];
+		joinDates[doc.id] = date;
+	});
+	settingsChanged();
+});
