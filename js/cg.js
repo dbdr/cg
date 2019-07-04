@@ -3,6 +3,11 @@ var CGLadder = new function() {
 
 	let cachedRankings = new Map();
 
+	/**
+	* Toggle on and off the specialization of ranking for one type of ladder
+	*/
+	this.specializedRanking = false;
+
 	this.getCachedRankings = () => { return cachedRankings }
 
 	/**
@@ -53,7 +58,7 @@ var CGLadder = new function() {
 
 	this.fetchRankings = function() {
 
-		const active = specializedRanking && yType !== 'all';
+		const active = this.specializedRanking && yType !== 'all';
 		let column = '', filter = '';
 		if (active) {
 			column = "CODINGPOINTS";
@@ -143,5 +148,3 @@ var CGLadder = new function() {
 
 
 };
-
-settingsChanged();

@@ -36,14 +36,23 @@
 	<fieldset id="y-choice">
 		<legend>CodingPoints</legend>
 		<div>
-		<input type=radio onchange="settingsChanged()" name="y-value" id="all" value="all" checked> <label for="all">All</label>
-		<input type=radio onchange="settingsChanged()" name="y-value" id="contest" value="contest"> <label for="contest">Contest</label>
-		<input type=radio onchange="settingsChanged()" name="y-value" id="multi" value="multi"> <label for="multi">Multi</label>
-		<input type=radio onchange="settingsChanged()" name="y-value" id="golf" value="golf"> <label for="golf">Golf</label>
-		<input type=radio onchange="settingsChanged()" name="y-value" id="optim" value="optim"> <label for="golf">Optim</label>
-		<input type=radio onchange="settingsChanged()" name="y-value" id="clash" value="clash"> <label for="clash">Clash</label>
+  		<input type=radio onchange="CGController.changeOrdinate( this )" name="y-value" id="all" value="all" checked>
+      <label for="all">All</label>
+  		<input type=radio onchange="CGController.changeOrdinate( this )" name="y-value" id="contest" value="contest">
+      <label for="contest">Contest</label>
+  		<input type=radio onchange="CGController.changeOrdinate( this )" name="y-value" id="multi" value="multi">
+      <label for="multi">Multi</label>
+  		<input type=radio onchange="CGController.changeOrdinate( this )" name="y-value" id="golf" value="golf">
+      <label for="golf">Golf</label>
+  		<input type=radio onchange="CGController.changeOrdinate( this )" name="y-value" id="optim" value="optim">
+      <label for="golf">Optim</label>
+  		<input type=radio onchange="CGController.changeOrdinate( this )" name="y-value" id="clash" value="clash">
+      <label for="clash">Clash</label>
 
-		<span id='specialized-section'><input onchange="settingsChanged()" type=checkbox id="specialized"> <label for="specialized">Use ranking of this category</label></span>
+  		<span id='specialized-section'>
+        <input onchange="CGController.toggleSpecialization( this )" type=checkbox id="specialized">
+        <label for="specialized">Use ranking of this category</label>
+      </span>
 		</div>
 	</fieldset>
 
@@ -75,6 +84,7 @@
 	<script src="js/http.js"></script>
 	<script src="js/ui.js"></script>
 	<script src="js/cg.js"></script>
+  <script src="js/main.js"></script>
 
 	</div>
 </body>

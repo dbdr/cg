@@ -1,3 +1,6 @@
+/**
+* Namespace Http to wrap and simplify usage of XMLHttpRequest
+*/
 let Http = new function() {
 
   const CORS_INDIRECTION = "https://cors-anywhere.herokuapp.com/"
