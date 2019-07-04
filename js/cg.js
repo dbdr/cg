@@ -134,10 +134,13 @@ var CGLadder = new function() {
 				( res ) => {
 					const joinDate = res.codingamePointsRankingDto.rankHistorics.dates[0];
 					console.log("New user: ", user.pseudo, res);
-					db.collection('join-dates').doc(user.userId.toString()).set({
-						pseudo: user.pseudo,
+					let data = {
 						"join-date": joinDate,
-					});
+					};
+					if (user.pseudo) {
+						data.pseudo = user.pseudo;
+					}
+					db.collection('join-dates').doc(user.userId.toString()).set(data);
 					joinDates[user.userId] = joinDate;
 					user.joinDate = joinDate;
 					this.addJoinDates(player + 1, leaderboard);
