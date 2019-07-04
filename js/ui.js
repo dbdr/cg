@@ -208,24 +208,25 @@ function displayRanking() {
 		.attr('height', IMG_SIZE)
 		.attr("xlink:href", d => "https://static.codingame.com/servlet/fileservlet?id=" + d.codingamer.avatar + "&format=navigation_avatar")
 		.on("mouseover", function(d) {
+			const pseudo = d["pseudo"];
 			const tooltipElt = tooltip[0][0];
-			tooltipElt.pseudo = d["pseudo"];
+			tooltipElt.pseudo = pseudo;
 			tooltip.transition()
 				.duration(200)
 				.style("opacity", .9);
-			tooltip.html(d["pseudo"] + "<br/> (" + xShowValue(d)
+			tooltip.html(pseudo + "<br/> (" + xShowValue(d)
 				+ ", " + yValue(d) + ")")
 				.style("left", (d3.event.pageX + 5) + "px")
 				.style("top", (d3.event.pageY - 28) + "px");
 			if (yType == "golf") {
 				for (let game of GOLF_GAMES) {
-					Http.get('http://cgstats.proxy.magusgeek.com/search', `game=${game.id}&player=${d["pseudo"]}`).subscribe(res => {
+					db_get(`golf/${pseudo}/game/${game.id}`, Http.get('http://cgstats.proxy.magusgeek.com/search', `game=${game.id}&player=${pseudo}`), 120, res => {
 						console.log(res);
-						if (tooltipElt.pseudo === d["pseudo"]) {
+						if (tooltipElt.pseudo === pseudo) {
 							const score = res.stats.slice(0, 5).map(s=>s.points).reduce((a,b)=>a+b, 0);
 							tooltipElt.innerHTML += '<br>' + game.name + ': ' + score;
 						}
-					}, (error) => console.log(error));
+					});
 				}
 			}
 		})
