@@ -1,7 +1,13 @@
 
+/**
+* This module is solely there to manipulate and hold the data locally.
+* This shouldn't call directly the UI module, leave it to the Controller.
+* It may call the database module
+*/
 var CGLadder = new function() {
 
 	let cachedRankings = new Map();
+	let joinDates = {}
 
 	/**
 	* Toggle on and off the specialization of ranking for one type of ladder
@@ -13,6 +19,10 @@ var CGLadder = new function() {
 
 	this.getCachedRankings = () => { return cachedRankings }
 
+
+	this.init = function() {
+		this.getJoinDates()
+	}
 	/**
 	* Stores the rankings in local storage
 	**/
@@ -130,6 +140,13 @@ var CGLadder = new function() {
 
 	}
 
+	this.getJoinDates = function() {
+		CGDatabase.getJoinDates( _joinDates => {
+			joinDates = _joinDates
+			console.log( "Join dates fetched" )
+		})
+	}
+
 	this.fetchJoinDate = function( player, user, leaderboard, callback ) {
 
 		Http.post(
@@ -137,14 +154,25 @@ var CGLadder = new function() {
 				`['${user.publicHandle}']`
 			).subscribe(
 				( res ) => {
+
 					const joinDate = res.codingamePointsRankingDto.rankHistorics.dates[0];
+					console.log("New user: ", user.pseudo, res);
+					let data = {
+						"join-date": joinDate,
+					};
+					if (user.pseudo) {
+						data.pseudo = user.pseudo;
+					}
+
+					CGDatabase.collection('join-dates')
+						.doc( user.userId.toString() ).set(data);
+
 					joinDates[user.userId] = joinDate;
 					user.joinDate = joinDate;
 					this.addJoinDates(player + 1, leaderboard, callback );
-				}
-			)
+
+				})
 
 	}
-
 
 };

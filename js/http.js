@@ -26,6 +26,10 @@ let Http = new function() {
       url = CORS_INDIRECTION + url
 
     }
+    
+    if( params && type === "GET" ) {
+      url += (params[0] == "?" ? "" : "?") + params
+    }
 
     let xhr = new XMLHttpRequest()
 
@@ -36,7 +40,7 @@ let Http = new function() {
         const res = xhr.response;
         if( this.onSuccess ) this.onSuccess( res )
       } else {
-        if( this.onError ) this.onError( res )
+        if( this.onError ) this.onError( xhr )
       }
 
     }
@@ -51,7 +55,7 @@ let Http = new function() {
       if( onError ) this.onError = onError || (res => console.error)
 
       xhr.open( type, url )
-      xhr.responseType = options.responseType || this.defaultOptions.responseType
+      xhr.responseType = options.responseType || DEFAULT_OPTIONS.responseType
       xhr.onreadystatechange = onreadystatechange
       xhr.send( params )
     }
@@ -60,8 +64,8 @@ let Http = new function() {
   /**
   * Create a GET request
   */
-  this.get = function( url, options ) {
-    return new httpRequest( "GET", url, options )
+  this.get = function( url, params, options ) {
+    return new httpRequest( "GET", url, params, options )
   }
 
   /**

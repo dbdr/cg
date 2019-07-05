@@ -1,14 +1,21 @@
 
-
+/**
+* Controller module, only module allowed to be called by the view
+* Expose through this calls to the other modules
+*/
 let CGController = new function() {
 
-
-
   this.init = function() {
+
+    CGDatabase.init( )
+    CGUi.init( )
+    CGLadder.init( )
+
     CGUi.changeAbscissa( CGLadder.abscissaType = "rank" )
     CGUi.changeOrdinate( CGLadder.ordinateType = "all" )
-    CGUi.init()
+
     CGUi.startSpin()
+
     CGLadder.fetchRankings(
             ranking => {
               CGUi.updateRanking( ranking )

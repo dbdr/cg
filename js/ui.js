@@ -1,4 +1,8 @@
 
+/**
+* The module handles complex UI
+* IT shouldn't manipulate data unless it's for the sole purpose of showing it
+*/
 let CGUi = new function() {
 
   let WIDTH = 2000;
