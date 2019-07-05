@@ -151,37 +151,50 @@ let CGUi = new function() {
       case "join":
         abscissaMeta.label          = "Join Date"
         abscissaMeta.valueFunction  = d => new Date( +d.codingamer.joinDate )
-        abscissaMeta.showFunction   = d => abscissaMeta.valueFunction( d ).toDateString()
+        abscissaMeta.showFunction   = d => abscissaMeta.valueFunction( d ).toISOString().split('T')[0];
         abscissaMeta.scale          = d3.time.scale().range( [ 0, dims.width ] )
+        abscissaMeta.axis           = d3.svg.axis().scale( abscissaMeta.scale ).orient("bottom")
+        abscissaMeta.mapFunction    = d => abscissaMeta.scale( abscissaMeta.valueFunction( d ) )
+        abscissaMeta.scale.domain( [
+            d3.min( data, abscissaMeta.valueFunction ),
+            d3.max( data, abscissaMeta.valueFunction )
+          ])
         break;
       case "level":
         abscissaMeta.label          = "XP Level"
-        abscissaMeta.valueFunction  = d => new Date( +d.codingamer.joinDate )
-        abscissaMeta.showFunction   = d => abscissaMeta.valueFunction( d ).toDateString()
+        abscissaMeta.valueFunction  = d => d.codingamer.level
+        abscissaMeta.showFunction   = d => "lvl " + d.codingamer.level;
         abscissaMeta.scale          = d3.scale.linear().range( [ 0, dims.width ] )
+        abscissaMeta.axis           = d3.svg.axis().scale( abscissaMeta.scale ).orient("bottom")
+        abscissaMeta.mapFunction    = d => abscissaMeta.scale( abscissaMeta.valueFunction( d ) )
+        abscissaMeta.scale.domain( [
+            d3.min( data, abscissaMeta.valueFunction ) - 1,
+            d3.max( data, abscissaMeta.valueFunction ) + 1
+          ])
         break;
+      default:
+        abscissaType = "rank"
       case "rank":
         abscissaMeta.label          = "Rank"
         abscissaMeta.valueFunction  = d => d.rank
         abscissaMeta.showFunction   = d => "#" + abscissaMeta.valueFunction( d )
         abscissaMeta.scale          = d3.scale.linear().range( [ 0, dims.width ] )
+        abscissaMeta.axis           = d3.svg.axis().scale( abscissaMeta.scale ).orient("bottom")
+        abscissaMeta.mapFunction    = d => abscissaMeta.scale( abscissaMeta.valueFunction( d ) )
+        abscissaMeta.scale.domain( [
+            d3.min( data, abscissaMeta.valueFunction ) - 1,
+            d3.max( data, abscissaMeta.valueFunction ) + 1
+          ])
         break;
     }
 
     console.log( abscissaType, ordinateType, abscissaMeta )
 
-    abscissaMeta.axis           = d3.svg.axis().scale( abscissaMeta.scale ).orient("bottom")
-    abscissaMeta.mapFunction    = d => abscissaMeta.scale( abscissaMeta.valueFunction( d ) )
-    abscissaMeta.scale.domain( [
-        d3.min( data, abscissaMeta.valueFunction ) - 1,
-        d3.max( data, abscissaMeta.valueFunction ) + 1
-      ])
-
     // Setup ordinate informations
 
     let ordinateValueFunction  = getOrdinateValueFunction( ordinateType )
     let
-        ordinateScale         = d3.scale.linear().range( [ HEIGHT, 0 ] ),
+        ordinateScale         = d3.scale.linear().range( [ dims.height, 0 ] ),
         ordinateMapFunction   = d => ordinateScale( ordinateValueFunction(d) ),
         ordinateAxis          = d3.svg.axis().scale( ordinateScale ).orient( "left" )
 
@@ -194,17 +207,17 @@ let CGUi = new function() {
     // Clean the graph
 
     while( this.svg[0][0].children.length > 0 ) {
-      svg[0][0].removeChild( svg[0][0].children[0] )
+      this.svg[0][0].removeChild( this.svg[0][0].children[0] )
     }
 
     this.svg
       .append("g")
     		.attr("class", "x axis")
-    		.attr("transform", "translate(0," + HEIGHT + ")")
+    		.attr("transform", "translate(0," + dims.height + ")")
     		.call( abscissaMeta.axis )
     		.append("text")
       		.attr("class", "label")
-      		.attr("x", WIDTH )
+      		.attr("x", dims.width )
       		.attr("y", -6)
       		.style("text-anchor", "end")
       		.text( abscissaMeta.label );
