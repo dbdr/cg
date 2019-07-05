@@ -59,13 +59,16 @@
 	<fieldset id="x-choice">
 		<legend>X axis</legend>
 		<div>
-		<input type=radio onchange="xAxisChange(this)" id="rank" value="rank" name="x-value" checked> <label for="rank">Rank</label>
-		<input type=radio onchange="xAxisChange(this)" id="join" value="join" name="x-value"> <label for="join">Join Date</label>
-		<input type=radio onchange="xAxisChange(this)" id="level" value="level" name="x-value"> <label for="level">XP Level</label>
+		<input type=radio onchange="CGController.changeAbscissa( this )" id="rank" value="rank" name="x-value" checked>
+    <label for="rank">Rank</label>
+		<input type=radio onchange="CGController.changeAbscissa( this )" id="join" value="join" name="x-value">
+    <label for="join">Join Date</label>
+		<input type=radio onchange="CGController.changeAbscissa( this )" id="level" value="level" name="x-value">
+    <label for="level">XP Level</label>
 		</div>
 	</fieldset>
 
-	<select id="rankingPage">
+	<select id="rankingPage" onchange="CGController.changePage( this )">
 		<option value=1>Guru (1-100)</option>
 		<option value=2>Grandmaster (101-200)</option>
 	</select>
@@ -82,9 +85,9 @@
 
 	<!-- Internal scripts  -->
 	<script src="js/http.js"></script>
+  <script src="js/cg.js"></script>
 	<script src="js/ui.js"></script>
-	<script src="js/cg.js"></script>
-  <script src="js/main.js"></script>
+  <script src="js/controller.js"></script>
 
 	</div>
 </body>

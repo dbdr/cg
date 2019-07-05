@@ -6,7 +6,10 @@ var CGLadder = new function() {
 	/**
 	* Toggle on and off the specialization of ranking for one type of ladder
 	*/
-	this.specializedRanking = false;
+	this.specializedRanking 	= false;
+	this.abscissaType					= "rank"
+	this.ordinateType					= "all"
+	this.rankingPage					= 1
 
 	this.getCachedRankings = () => { return cachedRankings }
 
@@ -56,13 +59,13 @@ var CGLadder = new function() {
 		}
 	}
 
-	this.fetchRankings = function() {
+	this.fetchRankings = function( callback ) {
 
-		const active = this.specializedRanking && yType !== 'all';
+		const active = this.specializedRanking && this.ordinateType !== 'all';
 		let column = '', filter = '';
 		if (active) {
 			column = "CODINGPOINTS";
-			switch (yType) {
+			switch (this.ordinateType) {
 				case "contest":
 					filter = "CONTESTS";
 					break;
@@ -80,7 +83,7 @@ var CGLadder = new function() {
 					break;
 			}
 		}
-		let options = `[${rankingPage},{'keyword':'','active':${active},'column':'${column}','filter':'${filter}'},null,true,'global']`;
+		let options = `[${this.rankingPage},{'keyword':'','active':${active},'column':'${column}','filter':'${filter}'},null,true,'global']`;
 		console.log(options);
 
 
@@ -88,11 +91,9 @@ var CGLadder = new function() {
 
 		const leaderboard = cachedRankings.get(options);
 		if (leaderboard) {
-			this.addJoinDates(0, leaderboard);
+			this.addJoinDates( 0, leaderboard, callback );
 			return;
 		}
-
-		startSpin();
 
 		Http.post( "https://www.codingame.com/services/Leaderboards/getGlobalLeaderboard", options )
 			.subscribe( ( res ) => {
@@ -104,12 +105,11 @@ var CGLadder = new function() {
 
 	}
 
-	this.addJoinDates = function( player, leaderboard ) {
+	this.addJoinDates = function( player, leaderboard, callback ) {
 
 		if (player === leaderboard.users.length) {
 
-			// console.log(JSON.stringify(joinDates));
-			updateRanking(leaderboard);
+			if( callback ) 	callback( leaderboard )
 
 		} else {
 
@@ -119,18 +119,18 @@ var CGLadder = new function() {
 			if (joinDate) {
 
 				user.joinDate = joinDate;
-				this.addJoinDates(player + 1, leaderboard);
+				this.addJoinDates( player + 1, leaderboard, callback );
 
 			} else {
 
-				this.fetchJoinDate(player, user, leaderboard);
+				this.fetchJoinDate( player, user, leaderboard, callback );
 
 			}
 		}
 
 	}
 
-	this.fetchJoinDate = function(player, user, leaderboard) {
+	this.fetchJoinDate = function( player, user, leaderboard, callback ) {
 
 		Http.post(
 				"https://www.codingame.com/services/CodinGamer/findCodingamePointsStatsByHandle",
@@ -140,7 +140,7 @@ var CGLadder = new function() {
 					const joinDate = res.codingamePointsRankingDto.rankHistorics.dates[0];
 					joinDates[user.userId] = joinDate;
 					user.joinDate = joinDate;
-					this.addJoinDates(player + 1, leaderboard);
+					this.addJoinDates(player + 1, leaderboard, callback );
 				}
 			)
 

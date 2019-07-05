@@ -11,7 +11,7 @@ let CGUi = new function() {
       bottom: 40,
       left: 100,
       right: 100
-    }
+    };
 
   const DEFAULT_OPTIONS = {
     lines: 12, // The number of lines to draw
@@ -35,10 +35,15 @@ let CGUi = new function() {
   };
 
   let spinner = new Spinner( DEFAULT_OPTIONS );
+
+
+
   /**
   * Initialize the UI
   */
   this.init = function() {
+
+    this.savedRanking = null;
 
     this.svg = d3
       .select("#graph")
@@ -55,8 +60,19 @@ let CGUi = new function() {
           .attr("class", "tooltip")
           .style("opacity", 0);
 
-    this.refreshGraph()
-    
+    console.log( "CGUi Initialized" )
+
+  }
+
+  // === Dims
+
+  this.innerDimensions = function() {
+    return {
+      top: margins.top,
+      left: margins.left,
+      width: WIDTH - (margins.left + margins.right),
+      height: HEIGHT - (margins.top + margins.bottom)
+    }
   }
 
   // === Spinner
@@ -86,10 +102,8 @@ let CGUi = new function() {
 
   // === Graph
 
-  let savedRanking = null;
-  let abscissaType = "rank"
-  let specializedRanking = false
-  let ordinateType = null
+  let abscissaType = null
+  let ordinateType = "rank"
 
   let getOrdinateValueFunction = ( value ) => {
     switch( value ) {
@@ -105,19 +119,22 @@ let CGUi = new function() {
 
   this.changeAbscissa = function( newType ) {
     abscissaType = ( typeof value === "string" ? newType : newType.value )
-    this.refreshGraph()
   }
 
   this.changeOrdinate = function( newType ) {
     ordinateType = ( typeof value === "string" ? newType : newType.value )
-    this.refreshGraph()
   }
+
+  this.getOrdinateType = function() { return ordinateType }
 
   this.refreshGraph = function() {
 
-    if( !savedRanking ) return
+    if( !this.savedRanking ) return
 
-    const data = savedRanking.users;
+    const data = this.savedRanking.users;
+
+
+    let dims = this.innerDimensions()
 
     // Setup abscissa informations
 
@@ -130,32 +147,34 @@ let CGUi = new function() {
       axis: null
     }
 
-    switch( ordinateType ) {
+    switch( abscissaType ) {
       case "join":
         abscissaMeta.label          = "Join Date"
         abscissaMeta.valueFunction  = d => new Date( +d.codingamer.joinDate )
         abscissaMeta.showFunction   = d => abscissaMeta.valueFunction( d ).toDateString()
-        abscissaMeta.scale          = d3.time.scale().range( [ 0, width ] )
+        abscissaMeta.scale          = d3.time.scale().range( [ 0, dims.width ] )
         break;
       case "level":
         abscissaMeta.label          = "XP Level"
         abscissaMeta.valueFunction  = d => new Date( +d.codingamer.joinDate )
         abscissaMeta.showFunction   = d => abscissaMeta.valueFunction( d ).toDateString()
-        abscissaMeta.scale          = d3.scale.linear().range( [ 0, width ] )
+        abscissaMeta.scale          = d3.scale.linear().range( [ 0, dims.width ] )
         break;
-      case "level":
+      case "rank":
         abscissaMeta.label          = "Rank"
         abscissaMeta.valueFunction  = d => d.rank
         abscissaMeta.showFunction   = d => "#" + abscissaMeta.valueFunction( d )
-        abscissaMeta.scale          = d3.scale.linear().range( [ 0, width ] )
+        abscissaMeta.scale          = d3.scale.linear().range( [ 0, dims.width ] )
         break;
     }
+
+    console.log( abscissaType, ordinateType, abscissaMeta )
 
     abscissaMeta.axis           = d3.svg.axis().scale( abscissaMeta.scale ).orient("bottom")
     abscissaMeta.mapFunction    = d => abscissaMeta.scale( abscissaMeta.valueFunction( d ) )
     abscissaMeta.scale.domain( [
         d3.min( data, abscissaMeta.valueFunction ) - 1,
-        d3.max( data, abscissaMeta.valueFUnction ) + 1
+        d3.max( data, abscissaMeta.valueFunction ) + 1
       ])
 
     // Setup ordinate informations
@@ -174,11 +193,11 @@ let CGUi = new function() {
 
     // Clean the graph
 
-    while( svg[0][0].children.length > 0 ) {
+    while( this.svg[0][0].children.length > 0 ) {
       svg[0][0].removeChild( svg[0][0].children[0] )
     }
 
-    svg
+    this.svg
       .append("g")
     		.attr("class", "x axis")
     		.attr("transform", "translate(0," + HEIGHT + ")")
@@ -191,7 +210,7 @@ let CGUi = new function() {
       		.text( abscissaMeta.label );
 
   	// y-axis
-  	svg
+  	this.svg
       .append("g")
     		.attr("class", "y axis")
     		.call( ordinateAxis )
@@ -204,7 +223,7 @@ let CGUi = new function() {
       		.text("CodingPoints");
 
   	// draw dots
-  	svg.selectAll(".dot")
+  	this.svg.selectAll(".dot")
   		.data(data)
   		.enter()
   		.append("svg:a")
@@ -248,6 +267,12 @@ let CGUi = new function() {
       				.style("opacity", 0);
       		});
 
+  }
+
+  this.updateRanking = function( ranking ) {
+    this.savedRanking = ranking
+    this.stopSpin()
+    this.refreshGraph()
   }
 
 };
