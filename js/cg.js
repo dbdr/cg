@@ -20,9 +20,10 @@ var CGLadder = new function() {
 	this.getCachedRankings = () => { return cachedRankings }
 
 
-	this.init = function() {
-		this.getJoinDates()
+	this.init = function(callback) {
+		this.getJoinDates(() => CGLadder.fetchRankings(callback));
 	}
+
 	/**
 	* Stores the rankings in local storage
 	**/
@@ -140,10 +141,12 @@ var CGLadder = new function() {
 
 	}
 
-	this.getJoinDates = function() {
+	this.getJoinDates = function(callback) {
 		CGDatabase.getJoinDates( _joinDates => {
 			joinDates = _joinDates
 			console.log( "Join dates fetched" )
+			if (callback)
+				callback()
 		})
 	}
 

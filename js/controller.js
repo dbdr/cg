@@ -8,19 +8,16 @@ let CGController = new function() {
   this.init = function() {
 
     CGDatabase.init( )
+	
     CGUi.init( )
-    CGLadder.init( )
-
-    CGUi.changeAbscissa( CGLadder.abscissaType = "rank" )
-    CGUi.changeOrdinate( CGLadder.ordinateType = "all" )
-
     CGUi.startSpin()
+	CGUi.changeAbscissa( CGLadder.abscissaType = "rank" )
+	CGUi.changeOrdinate( CGLadder.ordinateType = "all" )
 
-    CGLadder.fetchRankings(
-            ranking => {
-              CGUi.updateRanking( ranking )
-              console.log( ranking)
-            })
+    CGLadder.init(ranking => {
+		CGUi.updateRanking( ranking )
+		console.log( ranking)
+	});
   }
 
   this.changeOrdinate = function( elem ) {
