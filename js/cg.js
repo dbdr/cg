@@ -111,7 +111,7 @@ var CGLadder = new function() {
 				console.log( res )
 				cachedRankings.set( options, res )
 				this.storeRankings( )
-				this.addJoinDates( 0, res )
+				this.addJoinDates( 0, res, callback )
 			})
 
 	}
