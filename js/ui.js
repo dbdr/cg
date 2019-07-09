@@ -131,7 +131,7 @@ let CGUi = new function() {
   }
 
   this.changeAbscissa = function( newType ) {
-    abscissaType = ( typeof value === "string" ? newType : newType.value )
+    abscissaType = ( typeof newType === "string" ? newType : newType.value )
   }
 
   this.changeOrdinate = function( newType ) {
