@@ -49,8 +49,8 @@ let CGUi = new function() {
 
     this.savedRanking = null;
 
-	this.changeAbscissa(document.querySelector('input[name = "x-value"]:checked'))
-	this.changeOrdinate(document.querySelector('input[name = "y-value"]:checked'))
+	this.changeAbscissa(document.querySelector('input[name = "x-value"]:checked') || 'rank')
+	this.changeOrdinate(document.querySelector('input[name = "y-value"]:checked') || 'all')
 	
     this.svg = d3
       .select("#graph")
