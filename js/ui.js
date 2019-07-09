@@ -182,7 +182,7 @@ let CGUi = new function() {
         abscissaMeta.label          = "Rank"
         abscissaMeta.valueFunction  = d => d.rank
         abscissaMeta.showFunction   = d => "#" + abscissaMeta.valueFunction( d )
-        abscissaMeta.scale          = d3.scale.linear().range( [ 0, dims.width ] )
+        abscissaMeta.scale          = d3.scale.linear().range( [ dims.width, 0 ] )
         abscissaMeta.axis           = d3.svg.axis().scale( abscissaMeta.scale ).orient("bottom")
         abscissaMeta.mapFunction    = d => abscissaMeta.scale( abscissaMeta.valueFunction( d ) )
         abscissaMeta.scale.domain( [
