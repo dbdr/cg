@@ -278,7 +278,7 @@ let CGUi = new function() {
         				.style("opacity", .9);
 
               this.tooltip.html(
-                  ["pseudo"] + "<br/> ("
+                  d.pseudo + "<br/> ("
                   + abscissaMeta.valueFunction(d)
         				  + ", "
                   + ordinateValueFunction( d )
