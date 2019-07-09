@@ -49,6 +49,9 @@ let CGUi = new function() {
 
     this.savedRanking = null;
 
+	this.changeAbscissa(document.querySelector('input[name = "x-value"]:checked'))
+	this.changeOrdinate(document.querySelector('input[name = "y-value"]:checked'))
+	
     this.svg = d3
       .select("#graph")
         .append("svg")
@@ -109,8 +112,8 @@ let CGUi = new function() {
   // Initialize values from the DOM (might not be the default, e.g. after Reload on Firefox)
   this.getSpecializedRanking = () => document.querySelector('#specialized').checked
 
-  let abscissaType = document.querySelector('input[name = "x-value"]:checked').value
-  let ordinateType = document.querySelector('input[name = "y-value"]:checked').value
+  let abscissaType
+  let ordinateType
 
   this.getAbscissaType = () => abscissaType;
   this.getOrdinateType = () => ordinateType;
@@ -133,6 +136,7 @@ let CGUi = new function() {
 
   this.changeOrdinate = function( newType ) {
     ordinateType = ( typeof newType === "string" ? newType : newType.value )
+    document.querySelector('#specialized-section').style.visibility = ordinateType === 'all' ? 'hidden' : 'visible';
   }
 
   this.getOrdinateType = function() { return ordinateType }
