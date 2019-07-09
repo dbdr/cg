@@ -12,9 +12,9 @@ var CGLadder = new function() {
 	/**
 	* Toggle on and off the specialization of ranking for one type of ladder
 	*/
-	this.specializedRanking 	= false;
-	this.abscissaType					= "rank"
-	this.ordinateType					= "all"
+	// this.specializedRanking set by CGController
+	// this.abscissaType set by CGController
+	// this.ordinateType set by CGController
 	this.rankingPage					= 1
 
 	this.getCachedRankings = () => { return cachedRankings }

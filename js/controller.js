@@ -11,8 +11,10 @@ let CGController = new function() {
 	
     CGUi.init( )
     CGUi.startSpin()
-	CGUi.changeAbscissa( CGLadder.abscissaType = "rank" )
-	CGUi.changeOrdinate( CGLadder.ordinateType = "all" )
+	
+	CGLadder.specializedRanking = CGUi.getSpecializedRanking()
+	CGLadder.abscissaType = CGUi.getAbscissaType()
+	CGLadder.ordinateType = CGUi.getOrdinateType()
 
     CGLadder.init(ranking => {
 		CGUi.updateRanking( ranking )

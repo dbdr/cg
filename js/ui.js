@@ -106,8 +106,14 @@ let CGUi = new function() {
 
   // === Graph
 
-  let abscissaType = null
-  let ordinateType = "rank"
+  // Initialize values from the DOM (might not be the default, e.g. after Reload on Firefox)
+  this.getSpecializedRanking = () => document.querySelector('#specialized').checked
+
+  let abscissaType = document.querySelector('input[name = "x-value"]:checked').value
+  let ordinateType = document.querySelector('input[name = "y-value"]:checked').value
+
+  this.getAbscissaType = () => abscissaType;
+  this.getOrdinateType = () => ordinateType;
 
   let getOrdinateValueFunction = ( value ) => {
     switch( value ) {
