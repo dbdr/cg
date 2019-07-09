@@ -32,7 +32,7 @@ let CGController = new function() {
   }
 
   this.toggleSpecialization = function( elem ) {
-    CGLadder.specializedRanking = elem.value
+    CGLadder.specializedRanking = elem.checked
     CGLadder.fetchRankings(
             ranking => {
               CGUi.updateRanking( ranking )
