@@ -132,7 +132,7 @@ let CGUi = new function() {
   }
 
   this.changeOrdinate = function( newType ) {
-    ordinateType = ( typeof value === "string" ? newType : newType.value )
+    ordinateType = ( typeof newType === "string" ? newType : newType.value )
   }
 
   this.getOrdinateType = function() { return ordinateType }
