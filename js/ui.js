@@ -279,7 +279,7 @@ let CGUi = new function() {
 
               this.tooltip.html(
                   d.pseudo + "<br/> ("
-                  + abscissaMeta.valueFunction(d)
+                  + abscissaMeta.showFunction(d)
         				  + ", "
                   + ordinateValueFunction( d )
                   + ")"
