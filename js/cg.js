@@ -130,6 +130,7 @@ var CGLadder = new function() {
 						u.codingamer = {
 							userId: u.userId,
 							pseudo: u.pseudo,
+							level: u.level,
 						};
 					}
 				}
