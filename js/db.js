@@ -49,19 +49,14 @@ let CGDatabase = new function() {
 	*/
 	this.getJoinDates = function( callback ) {
 
-		this.firestore.collection('join-dates').get( ).then(
-			res => {
-
-				let joinDates = {}
-				res.forEach( doc => {
-					const date = doc.data()["join-date"]
-					joinDates[ doc.id ] = date
-				})
-
-				if( callback )	callback( joinDates )
-
+		this.firestore.collection('users').doc('join-dates').get( ).then(doc => {
+			if (doc.exists) {
+				callback(doc.data())
+			} else {
+				console.warn('users/join-dates missing from remote DB')
+				callback({})
 			}
-		)
+		})
 
 	}
 

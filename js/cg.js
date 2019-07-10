@@ -120,6 +120,11 @@ var CGLadder = new function() {
 
 		if (player === leaderboard.users.length) {
 
+			if (joinDates.changed) {
+				CGDatabase.collection('users').doc('join-dates').set(joinDates)
+				joinDates.changed = false
+			}
+
 			if( callback ) 	callback( leaderboard )
 
 		} else {
@@ -144,6 +149,7 @@ var CGLadder = new function() {
 	this.getJoinDates = function(callback) {
 		CGDatabase.getJoinDates( _joinDates => {
 			joinDates = _joinDates
+			joinDates.changed = false
 			console.log( "Join dates fetched" )
 			if (callback)
 				callback()
@@ -167,10 +173,9 @@ var CGLadder = new function() {
 						data.pseudo = user.pseudo;
 					}
 
-					CGDatabase.collection('join-dates')
-						.doc( user.userId.toString() ).set(data);
-
 					joinDates[user.userId] = joinDate;
+					joinDates.changed = true
+
 					user.joinDate = joinDate;
 					this.addJoinDates(player + 1, leaderboard, callback );
 
