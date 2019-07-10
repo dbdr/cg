@@ -126,6 +126,7 @@ let CGUi = new function() {
       case "golf":    return d => d.codegolf;
       case "optim":   return d => d.optim;
       case "clash":   return d => d.clash;
+      case "XP":      return d => d.xp;
       default:        return d => d.score;
     }
   }

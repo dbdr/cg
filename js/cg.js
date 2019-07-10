@@ -92,6 +92,9 @@ var CGLadder = new function() {
 				case "clash":
 					filter = "CLASH";
 					break;
+				case "XP":
+					filter = "XP";
+					break;
 			}
 		}
 		let options = `[${this.rankingPage},{'keyword':'','active':${active},'column':'${column}','filter':'${filter}'},null,true,'global']`;
@@ -106,12 +109,33 @@ var CGLadder = new function() {
 			return;
 		}
 
-		Http.post( "https://www.codingame.com/services/Leaderboards/getGlobalLeaderboard", options )
-			.subscribe( ( res ) => {
+		let req;
+		if (this.specializedRanking && this.ordinateType === 'XP')
+			req = Http.get('https://chadok.info/codingame/db/dbdr.json')
+		else
+			req = Http.post( "https://www.codingame.com/services/Leaderboards/getGlobalLeaderboard", options );
+		req.subscribe( ( res ) => {
 				console.log( res )
-				cachedRankings.set( options, res )
+				let leaderboard;
+				if (res.users) {
+					leaderboard = res
+				} else {
+					// Adapt XP leaderboard data to CG format
+					leaderboard = {
+						users: res.slice(0, 100)
+					};
+					for (u of leaderboard.users) {
+						u.rank = u.xpRank
+						u.xp = Math.min(u.xp, 99999)
+						u.codingamer = {
+							userId: u.userId,
+							pseudo: u.pseudo,
+						};
+					}
+				}
+				cachedRankings.set( options, leaderboard )
 				this.storeRankings( )
-				this.addJoinDates( 0, res, callback )
+				this.addJoinDates( 0, leaderboard, callback )
 			})
 
 	}
