@@ -266,8 +266,9 @@ let CGUi = new function() {
       		.attr('height', IMAGE_SIZE )
       		.attr(
             "xlink:href",
-            d => "https://static.codingame.com/servlet/fileservlet?id="
-              + d.codingamer.avatar + "&format=navigation_avatar"
+            d => d.codingamer.avatar
+					? "https://static.codingame.com/servlet/fileservlet?id=" + d.codingamer.avatar + "&format=navigation_avatar"
+					: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
           )
       		.on(
             "mouseover",
