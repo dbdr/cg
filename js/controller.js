@@ -53,6 +53,29 @@ let CGController = new function() {
     CGLadder.rankingPage = elem.value
 	reload()
   }
+
+	this.getGolfScores = async function (pseudo) {
+		const now = Math.floor(new Date().getTime() / 1000)
+
+		const cacheDoc = CGDatabase.collection('golf').doc(pseudo)
+		const doc = await cacheDoc.get()
+		if (doc.exists) {
+			const data = doc.data();
+			const age = now - data.cacheTime;
+			if (age < 1 * 3600)
+				return data.scores
+		}
+		
+		const allData = await Promise.all(GOLF_GAMES.map(game => Http.get('http://cgstats.proxy.magusgeek.com/search', `game=${game.id}&player=${pseudo}`).promise()));
+		const golfScores = allData.map((gameData, idx) => {
+			const game = GOLF_GAMES[idx];
+			console.log('Golf data:', game, gameData)
+			const points = gameData.stats.slice(0, 5).map(s=>s.points).reduce((a,b)=>a+b, 0)
+			return { game: game.name, points: points }
+		})
+		CGDatabase.collection('golf').doc(pseudo).set({ cacheTime: now, scores: golfScores })
+		return golfScores
+	}
 }
 
 CGController.init()

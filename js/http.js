@@ -59,6 +59,9 @@ let Http = new function() {
       xhr.onreadystatechange = onreadystatechange
       xhr.send( params )
     }
+	
+	this.promise = () => new Promise((s, e) => this.subscribe(s, e))
+	
   }
 
   /**

@@ -14,7 +14,7 @@ let CGUi = new function() {
       top: 40,
       bottom: 40,
       left: 100,
-      right: 100
+      right: 200
     };
 
   const DEFAULT_OPTIONS = {
@@ -271,25 +271,35 @@ let CGUi = new function() {
 					? "https://static.codingame.com/servlet/fileservlet?id=" + d.codingamer.avatar + "&format=navigation_avatar"
 					: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
           )
-      		.on(
-            "mouseover",
-            (d) => {
+		.on("mouseover", d => {
 
-              this.tooltip.transition()
-        				.duration(200)
-        				.style("opacity", .9);
+			const tooltipElt = this.tooltip[0][0];
+			tooltipElt.pseudo = d.pseudo;
 
-              this.tooltip.html(
-                  d.pseudo + "<br/> ("
-                  + abscissaMeta.showFunction(d)
-        				  + ", "
-                  + ordinateValueFunction( d )
-                  + ")"
-                )
-        				.style("left", (d3.event.pageX + 5) + "px")
-        				.style("top", (d3.event.pageY - 28) + "px");
-        		}
-          )
+			this.tooltip.transition()
+				.duration(200)
+				.style("opacity", .9);
+
+			this.tooltip.html(
+				d.pseudo + "<br/> ("
+				+ abscissaMeta.showFunction(d)
+				+ ", "
+				+ ordinateValueFunction( d )
+				+ ")"
+			)
+				.style("left", (d3.event.pageX + 5) + "px")
+				.style("top", (d3.event.pageY - 28) + "px");
+
+			if (ordinateType == "golf") {
+				CGController.getGolfScores(d.pseudo).then(scores => {
+					// Check if we are still showing the same player
+					if (tooltipElt.pseudo !== d.pseudo)
+						return;
+					for (golfScore of scores)
+						tooltipElt.innerHTML += '<br>' + golfScore.game + ': ' + golfScore.points;
+				});
+			}
+		})
       		.on("mouseout", (d) => {
       			this.tooltip.transition()
       				.duration(500)
