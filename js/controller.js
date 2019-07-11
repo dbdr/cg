@@ -22,24 +22,23 @@ let CGController = new function() {
 	});
   }
 
+	reload = () => {
+		CGUi.startSpin()
+		CGLadder.fetchRankings(ranking => {
+			CGUi.updateRanking( ranking )
+			console.log( ranking)
+		})
+	}
+
   this.changeOrdinate = function( elem ) {
     CGLadder.ordinateType = elem.value
     CGUi.changeOrdinate( elem )
-    CGUi.startSpin()
-    CGLadder.fetchRankings(
-            ranking => {
-              CGUi.updateRanking( ranking )
-              console.log( ranking)
-            })
+	reload()
   }
 
   this.toggleSpecialization = function( elem ) {
     CGLadder.specializedRanking = elem.checked
-    CGLadder.fetchRankings(
-            ranking => {
-              CGUi.updateRanking( ranking )
-              console.log( ranking)
-            })
+	reload()
   }
 
   this.changeAbscissa = function( elem ) {
@@ -52,11 +51,7 @@ let CGController = new function() {
 
   this.changePage = function( elem ) {
     CGLadder.rankingPage = elem.value
-    CGLadder.fetchRankings(
-            ranking => {
-              CGUi.updateRanking( ranking )
-              console.log( ranking)
-            })
+	reload()
   }
 }
 
