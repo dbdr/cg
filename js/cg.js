@@ -175,7 +175,7 @@ var CGLadder = new function() {
 		CGDatabase.getJoinDates( _joinDates => {
 			joinDates = _joinDates
 			joinDates.changed = false
-			console.log( "Join dates fetched" )
+			console.log( Object.keys(joinDates).length + " join dates fetched" )
 			if (callback)
 				callback()
 		})
