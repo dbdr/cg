@@ -130,7 +130,7 @@ function openTab(button, group, tabId) {
 }
 
 async function showNews() {
-	openTab(document.querySelector('#tabs'), "puzzle", "news")
+	openTab(document.querySelector('#news'), "puzzle", "news")
 	const langTab = document.querySelector('#langs')
 	langTab.hidden = true
 
