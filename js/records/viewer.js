@@ -108,7 +108,8 @@ function showResults(game, lang, data) {
 			? `https://static.codingame.com/servlet/fileservlet?id=${p.avatar}&format=navigation_avatar`
 			: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_960_720.png"
 		const avatar_tag = `<img src="${avatar}" height=32 width=32>`
-		line.innerHTML = `<td>${rank}</td><td>${avatar_tag}</td><td>${p.pseudo}</td><td>${p.score}</td><td>${p.date}</td>`
+		const pseudo = `<a target=_blank href="https://www.codingame.com/profile/${p.publicHandle}">${p.pseudo}</a>`
+		line.innerHTML = `<td>${rank}</td><td>${avatar_tag}</td><td>${pseudo}</td><td>${p.score}</td><td>${p.date}</td>`
 		table.appendChild(line)
 	}
 	content.appendChild(table)
@@ -173,7 +174,10 @@ async function showNews() {
 			curDate = showDate = news.date
 		}
 		const avatar = news.avatar ? `<img src="https://static.codingame.com/servlet/fileservlet?id=${news.avatar}&format=navigation_avatar">`: ""
-		row.innerHTML = `<td>${showDate}</td><td>${news.game}</td><td>${news.lang||""}</td><td>${avatar}</td><td>${news.pseudo}</td><td>${score}</td><td>${rank}</td>`
+		let pseudo = news.pseudo;
+		if (news.publicHandle)
+			pseudo = `<a target=_blank href="https://www.codingame.com/profile/${news.publicHandle}">${pseudo}</a>`
+		row.innerHTML = `<td>${showDate}</td><td>${news.game}</td><td>${news.lang||""}</td><td>${avatar}</td><td>${pseudo}</td><td>${score}</td><td>${rank}</td>`
 		table.appendChild(row)
 	})
 	
