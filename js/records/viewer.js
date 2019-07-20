@@ -139,11 +139,11 @@ async function showNews() {
 	const newsDocs = await CGDatabase.collection('records-store').get();
 	const table = document.createElement('table')
 	newsDocs.forEach(doc => {
-		const date = doc.id.split(' ')[0]
+		const runDate = doc.id.split(' ')[0]
 		data = doc.data()
-		console.log(date, data)
 		for (const news of data.records) {
-			news.date = date
+			if (! news.date)
+				news.date = runDate
 			allNews.push(news)
 		}
 	})
